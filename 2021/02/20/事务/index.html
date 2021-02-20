@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>【Spring】 3.Spring配置</title>
+    <title>【Spring】 12.事务</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -31,19 +31,19 @@
     <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-subtitle">【Spring】 3.Spring配置</h1>
+                <h1 class="header-subtitle">【Spring】 12.事务</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
                             <i class="iconfont icon-time"></i> 发表时间：2021-02-20
                         </span>
                         
-                            <span id="/2021/02/20/Spring配置/" class="leancloud_visitors" data-flag-title="【Spring】 3.Spring配置">
+                            <span id="/2021/02/20/事务/" class="leancloud_visitors" data-flag-title="【Spring】 12.事务">
                                 <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                             </span>
                         
                         <span>
-                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/Spring配置/"></span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/事务/"></span>
                         </span>  
                     </p>                 
                 </div>
@@ -57,14 +57,13 @@
         <div id="article">
     <div class="toc"></div>
     <div class="article-body">
-        <p>别名：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">alias</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">alias</span>=<span class="string">&quot;sdfdsf&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>bean配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    id:bean的唯一标识符,相当于对象名</span></span><br><span class="line"><span class="comment">    clsss:bean对象所对应的全限定名</span></span><br><span class="line"><span class="comment">    name:别名,可以同时取多个别名</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userT&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.YWJ.pojo.UserT&quot;</span> <span class="attr">name</span>=<span class="string">&quot;user2,u2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>import:</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一般用于团队开发，可以将多个配置文件导入合并为一个，</span><br><span class="line">假设现在项目中有多个人开发，这三个人负责开发不同的类开发，不同</span><br><span class="line">的类需要注册子啊不同的bean中，我们可以利用import将虽有的beans.xml合并为一个总的。</span><br><span class="line">Beans.xml：</span><br><span class="line">Beans2.xml：</span><br><span class="line">Beans3.xml：</span><br><span class="line">applicationContext.xml:</span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans.xml&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans2.xml&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans3.xml&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意：使用的时候直接使用总的配置即可。</p>
+        <p>1.事务的四个特性（ACID）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">（1）原子性：不可分割，要么都成功，要么都失败</span><br><span class="line"></span><br><span class="line">（2）一致性：操作之前操作之后总量不变</span><br><span class="line"></span><br><span class="line">（3）隔离性：多事务操作之间不会产生影响</span><br><span class="line"></span><br><span class="line">（4）持久性：一旦提交，事务数据不会发生变化</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>2.事务注解的参数含义</p>
+<p>@Transactional()</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">1. propagation：事务传播行为</span><br><span class="line">	</span><br><span class="line">	（1）多事务方法直接进行调用，这个过程中是如何进行管理的。</span><br><span class="line">	</span><br><span class="line">	（2）REQUIRED: 如果本方法有事务，调用其他方法时，用本方法的事务。如果本方法没有事务，调用其他方法时创建新事务。</span><br><span class="line">	</span><br><span class="line">	（3）REQUIRED_NEW：无论本方法是否有事务，调用其他方法都会创建新事务。</span><br><span class="line"></span><br><span class="line">2.ioslation：事务隔离级别</span><br><span class="line"></span><br><span class="line">	（1）事务有特性称为隔离性，多事务操作之间不会产生影响,不考虑隔离性会产生很多问题。</span><br><span class="line">	</span><br><span class="line">	（2）脏读：一个未提交事务读取到另一个未提交事务的数据。</span><br><span class="line">	</span><br><span class="line">	 (3) 不可重复读： 一个未提交的事务读取到另一个提交事务修改的数据。</span><br><span class="line">	</span><br><span class="line">	（4） 幻读：一个未提交事务读取到另一个未提交事务的添加的数据。</span><br><span class="line"></span><br><span class="line">3.timeout：超时时间</span><br><span class="line">	</span><br><span class="line">	（1）事务需要在一定时间内提交，如果不提交则进行回滚。</span><br><span class="line">	</span><br><span class="line">	（2）默认值是-1，不超时，设置时间以秒单位进行计算。</span><br><span class="line"></span><br><span class="line">4.readOnly：是否只读</span><br><span class="line"></span><br><span class="line">	（1）读：查询操作；  写：添加修改删除操作</span><br><span class="line">	</span><br><span class="line">	（2）默认值false,表示可以查询，可以添加修改删除操作。</span><br><span class="line">	</span><br><span class="line">	（3）true时只能查询</span><br><span class="line"></span><br><span class="line">5.rollbackFor：回滚</span><br><span class="line"></span><br><span class="line">	设置出现哪些异常进行事务回滚</span><br><span class="line"></span><br><span class="line">6.noRollbackFor：不回滚</span><br><span class="line"></span><br><span class="line">	设置出现哪些异常不进行事务回滚</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>七种传播行为：</p>
+<p><img src="/images/%E4%BA%8B%E5%8A%A1/2-1613816884944.png" alt="2"></p>
 
         <p class="suffix-end">__END__</p>
         <div class="suffix-box">
@@ -74,7 +73,7 @@
             <div class="suffix-box-right">
                 <span class="suffix-box-title">文章作者</span>：Thinker
                 <br>
-                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/20/Spring%E9%85%8D%E7%BD%AE/" target="_blank">【Spring】 3.Spring配置</a>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/20/%E4%BA%8B%E5%8A%A1/" target="_blank">【Spring】 12.事务</a>
                 <br>
                 <span class="suffix-box-title">作者签名</span>：好好学习，天天向上！
                 <br>
@@ -92,17 +91,14 @@
             <div class="tag">
                 标签：
                 
-                    <a href="/tags/spring%E6%A1%86%E6%9E%B6/">spring框架</a>
+                    <a href="/tags/Spring%E6%A1%86%E6%9E%B6/">Spring框架</a>
                 
             </div>
         
         <div class="article-prev-next">
             
-                <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" class="prev-prefix">« </a> 上一篇：    <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" title="发布于 2021-02-20 10:26">【Spring】 4.依赖注入</a>
-                <br>
             
-            
-                <a href="/2021/02/20/ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%B5%8B%E5%80%BC/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/20/ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%B5%8B%E5%80%BC/" title="发布于 2021-02-20 10:13">【Spring】 2.ioc创建对象并赋值</a>
+                <a href="/2021/02/20/Mybatis%E5%9B%9E%E9%A1%BE/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/20/Mybatis%E5%9B%9E%E9%A1%BE/" title="发布于 2021-02-20 11:22">【Spring】 11.Mybatis回顾</a>
             
         </div>
     </div>

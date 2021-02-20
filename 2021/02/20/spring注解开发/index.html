@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>【Spring】 3.Spring配置</title>
+    <title>【Spring】 7.注解开发</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -31,19 +31,19 @@
     <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-subtitle">【Spring】 3.Spring配置</h1>
+                <h1 class="header-subtitle">【Spring】 7.注解开发</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
                             <i class="iconfont icon-time"></i> 发表时间：2021-02-20
                         </span>
                         
-                            <span id="/2021/02/20/Spring配置/" class="leancloud_visitors" data-flag-title="【Spring】 3.Spring配置">
+                            <span id="/2021/02/20/spring注解开发/" class="leancloud_visitors" data-flag-title="【Spring】 7.注解开发">
                                 <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                             </span>
                         
                         <span>
-                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/Spring配置/"></span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/spring注解开发/"></span>
                         </span>  
                     </p>                 
                 </div>
@@ -57,14 +57,26 @@
         <div id="article">
     <div class="toc"></div>
     <div class="article-body">
-        <p>别名：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">alias</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">alias</span>=<span class="string">&quot;sdfdsf&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>bean配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    id:bean的唯一标识符,相当于对象名</span></span><br><span class="line"><span class="comment">    clsss:bean对象所对应的全限定名</span></span><br><span class="line"><span class="comment">    name:别名,可以同时取多个别名</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userT&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.YWJ.pojo.UserT&quot;</span> <span class="attr">name</span>=<span class="string">&quot;user2,u2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>import:</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一般用于团队开发，可以将多个配置文件导入合并为一个，</span><br><span class="line">假设现在项目中有多个人开发，这三个人负责开发不同的类开发，不同</span><br><span class="line">的类需要注册子啊不同的bean中，我们可以利用import将虽有的beans.xml合并为一个总的。</span><br><span class="line">Beans.xml：</span><br><span class="line">Beans2.xml：</span><br><span class="line">Beans3.xml：</span><br><span class="line">applicationContext.xml:</span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans.xml&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans2.xml&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;beans3.xml&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意：使用的时候直接使用总的配置即可。</p>
+        <p>导入注解的支持：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>扫描包（表示该包下能使用注解）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.YWJ.pojo&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>【注解】</p>
+<p>@Component</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">等价于： &lt;bean id=&quot;user&quot; class=&quot;com.YWJ.pojo.User&quot;/&gt;</span><br><span class="line">放在类上，说明这个类被spring管理了，就是bean</span><br></pre></td></tr></table></figure>
+<p>@Value</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">属性注入,也可以放在set方法上</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line">Public <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">  <span class="meta">@Value(&quot;杨文杰&quot;)</span></span><br><span class="line">  Public String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【作用域】</p>
+<p>单例模式：</p>
+<p>@Scope(“singleton”)</p>
+<p>原型模式：</p>
+<p>@Scope(“prototype”)</p>
+<p>【衍生注解】</p>
+<p>dao:  @Repository</p>
+<p>service:  @Service</p>
+<p>controller:  @Controller</p>
+<p>注意：四个注解的功能一样,都是将某个类注册到spring中，转配bean</p>
 
         <p class="suffix-end">__END__</p>
         <div class="suffix-box">
@@ -74,7 +86,7 @@
             <div class="suffix-box-right">
                 <span class="suffix-box-title">文章作者</span>：Thinker
                 <br>
-                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/20/Spring%E9%85%8D%E7%BD%AE/" target="_blank">【Spring】 3.Spring配置</a>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/20/spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/" target="_blank">【Spring】 7.注解开发</a>
                 <br>
                 <span class="suffix-box-title">作者签名</span>：好好学习，天天向上！
                 <br>
@@ -98,11 +110,11 @@
         
         <div class="article-prev-next">
             
-                <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" class="prev-prefix">« </a> 上一篇：    <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" title="发布于 2021-02-20 10:26">【Spring】 4.依赖注入</a>
+                <a href="/2021/02/20/java%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AEspring/" class="prev-prefix">« </a> 上一篇：    <a href="/2021/02/20/java%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AEspring/" title="发布于 2021-02-20 10:57">【Spring】 8.java方式配置Spring</a>
                 <br>
             
             
-                <a href="/2021/02/20/ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%B5%8B%E5%80%BC/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/20/ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%B5%8B%E5%80%BC/" title="发布于 2021-02-20 10:13">【Spring】 2.ioc创建对象并赋值</a>
+                <a href="/2021/02/20/bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/20/bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" title="发布于 2021-02-20 10:38">【Spring】 6.bean的自动装配</a>
             
         </div>
     </div>
