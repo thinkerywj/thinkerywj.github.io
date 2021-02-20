@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>标签 - 笔记</title>
+    <title>【Spring】 5.bean的作用域</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -17,261 +17,101 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.3.0"></head>
 <body>
     <a id="cover"></a>
     <div id="header">
-    <div class="header" >
+    <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-title"></h1>
-                <h2 class="header-description" id="hitokoto"></h2>
-                <h3 class="header-info" id="hitokotoAuthor"></h3>
-                <!--
-                <h1 class="header-subtitle"></h1>
-                <p class="header-subinfo"></p>
-                -->
+                <h1 class="header-subtitle">【Spring】 5.bean的作用域</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2021-02-20
+                        </span>
+                        
+                            <span id="/2021/02/20/bean的作用域/" class="leancloud_visitors" data-flag-title="【Spring】 5.bean的作用域">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/bean的作用域/"></span>
+                        </span>  
+                    </p>                 
+                </div>
             </div>
         </div>
-        <a class="scroll-down" href="javascript:;" target="_self" data-offset="-45">
-            <span class="hidden">Scroll Down</span>
-            <i class="scroll-down-icon iconfont icon-return"></i>
-        </a>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
 </div>
     <div id="container">
     <div id="content">
-        <div class="articles">
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/20/bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/">【Spring】 6.bean的自动装配</a>
-                
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <p>1.单例模式（默认）得到的对象是一样的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;user2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.YWJ.pojo.User&quot;</span> <span class="attr">c:age</span>=<span class="string">&quot;18&quot;</span> <span class="attr">c:name</span>=<span class="string">&quot;闫思琪&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;singleton&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.原型模式（每次从容器中get的时候，都会产生一个新对象）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;user2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.YWJ.pojo.User&quot;</span> <span class="attr">c:age</span>=<span class="string">&quot;18&quot;</span> <span class="attr">c:name</span>=<span class="string">&quot;闫思琪&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span>&#x27;/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3.其余的request，session,application 这些只能在web开发中使用到！</p>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg" alt="Thinker">
             </div>
-            <div class="article-abstract">
-                
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Thinker
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/20/bean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/" target="_blank">【Spring】 5.bean的作用域</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：好好学习，天天向上！
+                <br>
+                <span class="suffix-box-title">关于作者</span>：<a href="https://github.com/thinkerywj" target="_blank">Thinker</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
             </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-20
-                </span>
-                
-                    <span id="/2021/02/20/bean的自动装配/" class="leancloud_visitors" data-flag-title="【Spring】 6.bean的自动装配">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/bean的自动装配/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+            <div style="clear: both;"></div>
         </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/20/bean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/">【Spring】 5.bean的作用域</a>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
                 
             </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-20
-                </span>
-                
-                    <span id="/2021/02/20/bean的作用域/" class="leancloud_visitors" data-flag-title="【Spring】 5.bean的作用域">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/bean的作用域/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+        
+        <div class="article-prev-next">
+            
+                <a href="/2021/02/20/bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" class="prev-prefix">« </a> 上一篇：    <a href="/2021/02/20/bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" title="发布于 2021-02-20 08:41">【Spring】 6.bean的自动装配</a>
+                <br>
+            
+            
+                <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/" title="发布于 2021-02-20 10:26">【Spring】 4.依赖注入</a>
+            
         </div>
+    </div>
     
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/20/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%88DI%EF%BC%89/">【Spring】 4.依赖注入</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-20
-                </span>
-                
-                    <span id="/2021/02/20/依赖注入（DI）/" class="leancloud_visitors" data-flag-title="【Spring】 4.依赖注入">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/依赖注入（DI）/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
         </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/20/Spring%E9%85%8D%E7%BD%AE/">【Spring】 3.Spring配置</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-20
-                </span>
-                
-                    <span id="/2021/02/20/Spring配置/" class="leancloud_visitors" data-flag-title="【Spring】 3.Spring配置">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/Spring配置/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+        <div class="comments-content">
         </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/20/ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%B5%8B%E5%80%BC/">【Spring】 2.ioc创建对象并赋值</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-20
-                </span>
-                
-                    <span id="/2021/02/20/ioc创建对象并赋值/" class="leancloud_visitors" data-flag-title="【Spring】 2.ioc创建对象并赋值">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/20/ioc创建对象并赋值/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
-        </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/19/Spring%E6%A6%82%E8%BF%B0/">【Spring】 1.概述</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-19
-                </span>
-                
-                    <span id="/2021/02/19/Spring概述/" class="leancloud_visitors" data-flag-title="【Spring】 1.概述">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/19/Spring概述/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
-        </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/19/Mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/">【Mybatis】3.执行流程</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-19
-                </span>
-                
-                    <span id="/2021/02/19/Mybatis执行流程/" class="leancloud_visitors" data-flag-title="【Mybatis】3.执行流程">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/19/Mybatis执行流程/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
-        </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/18/Log4j.properties/">【Mybatis】2.Log4j.properties</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-18
-                </span>
-                
-                    <span id="/2021/02/18/Log4j.properties/" class="leancloud_visitors" data-flag-title="【Mybatis】2.Log4j.properties">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/18/Log4j.properties/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
-        </div>
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/02/18/Mybatis-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">【Mybatis】1.初始化配置文件</a>
-                
-            </div>
-            <div class="article-abstract">
-                
-            </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-02-18
-                </span>
-                
-                    <span id="/2021/02/18/Mybatis-初始化配置文件/" class="leancloud_visitors" data-flag-title="【Mybatis】1.初始化配置文件">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/18/Mybatis-初始化配置文件/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
-        </div>
-    
-    
+    </div>
+
 </div>
 
     </div>
