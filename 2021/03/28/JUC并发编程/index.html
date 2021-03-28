@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>标签 - Java并发编程</title>
+    <title>【Java并发编程】 3.JUC (面试重点！！！)</title>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
@@ -17,61 +17,156 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.3.0"></head>
 <body>
     <a id="cover"></a>
     <div id="header">
-    <div class="header" >
+    <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-title"></h1>
-                <h2 class="header-description" id="hitokoto"></h2>
-                <h3 class="header-info" id="hitokotoAuthor"></h3>
-                <!--
-                <h1 class="header-subtitle"></h1>
-                <p class="header-subinfo"></p>
-                -->
+                <h1 class="header-subtitle">【Java并发编程】 3.JUC (面试重点！！！)</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2021-03-28
+                        </span>
+                        
+                            <span id="/2021/03/28/JUC并发编程/" class="leancloud_visitors" data-flag-title="【Java并发编程】 3.JUC (面试重点！！！)">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/03/28/JUC并发编程/"></span>
+                        </span>  
+                    </p>                 
+                </div>
             </div>
         </div>
-        <a class="scroll-down" href="javascript:;" target="_self" data-offset="-45">
-            <span class="hidden">Scroll Down</span>
-            <i class="scroll-down-icon iconfont icon-return"></i>
-        </a>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
 </div>
     <div id="container">
     <div id="content">
-        <div class="articles">
-    
-        <div class="article">
-            <div class="article-title">
-                <a href="/2021/03/22/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%881%EF%BC%89/">【Java并发编程】 1.进程与线程</a>
-                
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <ul>
+<li><p>Java无法开启线程，只能通过调用底层的C++。</p>
+</li>
+<li><p>Java无法直接操作硬件，它是运行在虚拟机上的。</p>
+</li>
+<li><p>获取CPU的核数</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runtime.getRuntime().availableProcessors()</span><br></pre></td></tr></table></figure>
+<p>并发编程的本质：<strong>充分利用CPU的资源</strong></p>
+<blockquote>
+<p>线程有几个状态</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新生</span></span><br><span class="line">        NEW,</span><br><span class="line"><span class="comment">//运行</span></span><br><span class="line">        RUNNABLE,</span><br><span class="line"><span class="comment">//阻塞</span></span><br><span class="line">   </span><br><span class="line">        BLOCKED,</span><br><span class="line"><span class="comment">//等待，死等</span></span><br><span class="line">     </span><br><span class="line">        WAITING,</span><br><span class="line"><span class="comment">//超时等待</span></span><br><span class="line">      </span><br><span class="line">        TIMED_WAITING,</span><br><span class="line"><span class="comment">//终止</span></span><br><span class="line">      </span><br><span class="line">        TERMINATED;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>wait/sleep的区别</p>
+</blockquote>
+<p><strong>1.来自不同的类</strong></p>
+<p>wait =&gt;Object</p>
+<p>sleep=&gt;Thread</p>
+<p><strong>2.关于锁的释放</strong></p>
+<p>wait ： 会释放锁； sleep: 抱着锁睡觉</p>
+<p><strong>3.使用的范围不同</strong></p>
+<p>wait:  必须在同步代码块中</p>
+<p>sleep: 可以在任何地方使用</p>
+<h2 id="Lock锁"><a href="#Lock锁" class="headerlink" title="Lock锁"></a>Lock锁</h2><blockquote>
+<p>传统Synchronized</p>
+</blockquote>
+<blockquote>
+<p>Lock接口</p>
+</blockquote>
+<p><strong>三个实现类：</strong><br><img src="/images/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/image-20210328191908706.png" alt="image-20210328191908706"></p>
+<p><img src="/images/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/image-20210328192748712.png" alt="image-20210328192748712"></p>
+<p>公平锁：十分公平，先来后到</p>
+<p><strong>非公平锁：不公平，可以插队（默认）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SaleTicketDemo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//并发：多线程操作同一个资源</span></span><br><span class="line">        Ticket ticket = <span class="keyword">new</span> Ticket();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">60</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;A&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">60</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;B&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">60</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;C&quot;</span>).start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//资源类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ticket</span></span>&#123;</span><br><span class="line">    <span class="comment">//属性,方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number = <span class="number">50</span>;</span><br><span class="line"></span><br><span class="line">    Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="comment">//卖票 方式</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">sale</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (number&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                System.out.print( Thread.currentThread().getName()+<span class="string">&quot;卖出了第&quot;</span>+(<span class="number">50</span>-number+<span class="number">1</span>)+<span class="string">&quot;票&quot;</span>);</span><br><span class="line">                number--;</span><br><span class="line">                System.out.println(<span class="string">&quot;剩余: &quot;</span>+number);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>synchronized和Lock锁的区别</p>
+</blockquote>
+<p><strong>1.Synchronized ：内置的Java关键字；Lock：一个Java类</strong></p>
+<p><strong>2.Synchronized ：无法判断获取的状态；Lock可以判断是否获取到了锁</strong></p>
+<p><strong>3.Synchronized ： 会自动释放锁；Lock需要手动释放lock.unLock,不然会死锁</strong></p>
+<p><strong>4.Synchronized:  线程1（获得锁、阻塞其他）、线程2（等待）；Lock锁就不一定会等待下去lock.tryLock()</strong></p>
+<p><strong>5.Synchronized : 可重入锁，不可以中断，非公平。Lock：可重入、可以中断锁，可以自己设置是否公平。</strong></p>
+<p><strong>6.Synchronized ：适合锁少量的代码同步问题；Lock: 适合锁大量的同步代码。</strong></p>
+<h2 id="生产者与消费者问题"><a href="#生产者与消费者问题" class="headerlink" title="生产者与消费者问题"></a>生产者与消费者问题</h2><p><strong>面试笔试： 手写单例模式、八大排序算法、生产者消费者问题、死锁</strong></p>
+<blockquote>
+<p>synchronized 版本</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Data data = <span class="keyword">new</span> Data();</span><br><span class="line">        <span class="comment">//+1</span></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                    data.increment();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;A&quot;</span>).start();</span><br><span class="line">        <span class="comment">//-1</span></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                    data.decrement();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;B&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等待，业务，通知</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//+1</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (number != <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//等待</span></span><br><span class="line">            <span class="keyword">this</span>.wait();</span><br><span class="line">        &#125;</span><br><span class="line">        number++;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">&quot;=&gt;&quot;</span>+number);</span><br><span class="line">        <span class="comment">//唤醒其他线程</span></span><br><span class="line">        <span class="keyword">this</span>.notifyAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//-1</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">decrement</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (number == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//等待</span></span><br><span class="line">            <span class="keyword">this</span>.wait();</span><br><span class="line">        &#125;</span><br><span class="line">        number--;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">&quot;=&gt;&quot;</span>+number);</span><br><span class="line">        <span class="comment">//唤醒其他线程</span></span><br><span class="line">        <span class="keyword">this</span>.notifyAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>这里是两个线程，如果是四个线程呢？wait会唤醒线程</li>
+</ul>
+<p>会存在虚假唤醒！ 需要改为While判断！</p>
+<p><img src="/images/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/image-20210328204351119.png" alt="image-20210328204351119"></p>
+<blockquote>
+<p>JUC版本</p>
+</blockquote>
+<blockquote>
+<p>锁是什么？ 如何判断锁的是谁？</p>
+</blockquote>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg" alt="Thinker">
             </div>
-            <div class="article-abstract">
-                
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Thinker
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/03/28/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" target="_blank">【Java并发编程】 3.JUC (面试重点！！！)</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：好好学习，天天向上！
+                <br>
+                <span class="suffix-box-title">关于作者</span>：<a href="https://github.com/thinkerywj" target="_blank">Thinker</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
             </div>
-            <div class="clear"></div>
-            <div class="article-info">
-                <span>
-                    <i class="iconfont icon-time"></i> 发表时间：2021-03-22
-                </span>
-                
-                    <span id="/2021/03/22/并发编程（1）/" class="leancloud_visitors" data-flag-title="【Java并发编程】 1.进程与线程">
-                        <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                    </span>
-                
-                <span>
-                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/03/22/并发编程（1）/"></span>
-                </span>
-            </div>
-            <div class="clear"></div>     
+            <div style="clear: both;"></div>
         </div>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a>
+                
+            </div>
+        
+        <div class="article-prev-next">
+            
+            
+                <a href="/2021/03/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B2/" class="next-prefix">» </a> 下一篇：    <a href="/2021/03/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B2/" title="发布于 2021-03-28 12:43">【Java并发编程】 2.多线程进阶</a>
+            
+        </div>
+    </div>
     
-    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
 </div>
 
     </div>
