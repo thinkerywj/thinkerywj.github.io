@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>【总结】 Java面试题</title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+    <a id="cover"></a>
+    <div id="header">
+    <div class="header">
+        <div class="vertical">
+            <div class="inner">
+                <h1 class="header-subtitle">【总结】 Java面试题</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2021-04-14
+                        </span>
+                        
+                            <span id="/2021/04/14/面试题/" class="leancloud_visitors" data-flag-title="【总结】 Java面试题">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/04/14/面试题/"></span>
+                        </span>  
+                    </p>                 
+                </div>
+            </div>
+        </div>
+        <canvas id="articleHeaderCanvas"></canvas>
+    </div>
+</div>
+    <div id="container">
+    <div id="content">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h2 id="1-ConcurrentHashMap"><a href="#1-ConcurrentHashMap" class="headerlink" title="1.ConcurrentHashMap?"></a>1.ConcurrentHashMap?</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jdk1.7: 采用分段锁机制，它的数据结构是数组＋数组＋链表的结构，它锁的是segment数组，一个segment包含一个或多个hashentry数组。因此它锁的是每一个segment。</span><br><span class="line">put(): 它首先回去尝试获取锁，如果获取成功，那么它会直接插入链表中，如果获取失败，那么它会采用自旋的方式去尝试获取锁，如果在一定次数之内都获取失败，那么它就会阻塞。</span><br><span class="line">get(): 它会使用两次hash去定位，第一次是定位segment中，第二次去定位在hashentry中的位置，因为hashentry中的value属性是用volatitle修饰的，那么就会保证它的可见性，所以不必加锁。</span><br><span class="line"></span><br><span class="line">jdk1.8: 采用的是数组＋链表＋红黑树的结构，它取消了segment数组，并且它锁住的是Node中的每一个链表，采用的是Synchronized＋CAS的形式保证安全。</span><br><span class="line">put(): 根据key计算出hashcode值，如果数组中没有值的话就需要初始化，如果不存在hash碰撞就直接利用CAS插入数据，存在hash碰撞的话就利用Synchronized进行写入，如果链表的长度大于8，就会转换为红黑树。</span><br><span class="line">get(): 通过计算出的hashcode值寻找到数组相应的位置，就直接返回，否则就在链表或者红黑树上找。</span><br></pre></td></tr></table></figure>
+<h2 id="2-CAS？"><a href="#2-CAS？" class="headerlink" title="2.CAS？"></a>2.CAS？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">乐观锁的实现方式的，就是compareAndSwap，比较并交换，时首先判断当前值与原始值是否相等，相等的话可以修改，反之则不能。</span><br></pre></td></tr></table></figure>
+<h2 id="3-ABA？"><a href="#3-ABA？" class="headerlink" title="3.ABA？"></a>3.ABA？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以通过版本号控制，在每次CAS的之后就将当前版本号+1。这样即使中途修改并改回去了，就可以用版本号来直到是否修改。</span><br></pre></td></tr></table></figure>
+<h2 id="4-HashMap为什么线程不安全"><a href="#4-HashMap为什么线程不安全" class="headerlink" title="4.HashMap为什么线程不安全"></a>4.HashMap为什么线程不安全</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">因为hashmap全程没有加锁，那么在写入时就可能造成多个线程同时写入的情况，那么这样新值就会将旧值覆盖。</span><br></pre></td></tr></table></figure>
+<h2 id="5-synchronized原理？"><a href="#5-synchronized原理？" class="headerlink" title="5.synchronized原理？"></a>5.synchronized原理？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">他是jvm层面的，主要是控制底层的monitor监视器对象，首先获取锁的时候就会执行monitorenter指令，这时候会得到一个计数器，它的值会被赋为1，如果这个线程再次进入synchronized的范围，就会将计数器的值+1。相反，如果执行完synchronized修饰的方法或者代码块就会执行monitorexit指令，这个时候就会将这个对象的计数器的值-1，直到计数器的值为0,它才会释放锁。</span><br></pre></td></tr></table></figure>
+<h2 id="6-reentrantLock原理？"><a href="#6-reentrantLock原理？" class="headerlink" title="6.reentrantLock原理？"></a>6.reentrantLock原理？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">它采用的是AQS来实现的，主要是不公平和公平锁两种实现方式，在AQS的内部存在三个变量，一个state，它的初始值为0，一个是用来保存获取该锁的线程，还有一个是等待队列，用来存在等待被执行的线程。当线程获取锁的时候，会判断state的值是否为0,如果是0，同时又是非公平锁的话就会直接获取锁，如果是公平锁的话就会判断等待队列中有没有线程，有的话就会进等待队列排队，否则直接获取锁。如果state不是0的话，就会判断另一个变量是否是当前线程，如果是的话就会获取锁，通时将state+1,如果不是当前线程的话就会进入等待队列。如果执行unlock方法就会将state-1。</span><br></pre></td></tr></table></figure>
+<h2 id="7-fail-fast-和-fail-safe"><a href="#7-fail-fast-和-fail-safe" class="headerlink" title="7.fail-fast 和 fail-safe?"></a>7.fail-fast 和 fail-safe?</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">快速失败指的是在使用迭代器遍历集合的时候如果其他线程对该集合进行修改时就会抛出ConcurrentModificationExeption异常。</span><br><span class="line">原理：在迭代器内部存在一个modCount变量，在遍历过程中对集合进行修改，那么modCount值就会改变，在迭代器调用next()和hasNext()方法时就会判断modCount是否已经改变了，改变的话就会抛出异常。</span><br><span class="line">安全失败主要存在于juc并发包下，它在遍历过程中修改的话不会抛出异常。</span><br></pre></td></tr></table></figure>
+<h2 id="8-synchronized锁升级过程？"><a href="#8-synchronized锁升级过程？" class="headerlink" title="8.synchronized锁升级过程？"></a>8.synchronized锁升级过程？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">它是在jdk1.6之后进行升级的，如果在没有锁竞争的情况下会使用偏向锁，它主要是去判断对象在堆中的存储空间中的对象头中的mark word中的threadID实现，它会去判断当前请求锁的线程ID是否等于mark word中的threadID,如果相等的就就还行偏向锁，不相等的说明存在锁的竞争，那么就转为轻量级锁，它主要是通过CAS去实现，成功会直接获取锁，失败会进行自旋，在一定次数内自旋获取失败就会转换为重量级锁。</span><br></pre></td></tr></table></figure>
+<h2 id="9-HashMap底层原理？"><a href="#9-HashMap底层原理？" class="headerlink" title="9.HashMap底层原理？"></a>9.HashMap底层原理？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jdk1.7采用的是数组+链表的结构，1.8变为了数组+链表+红黑树的结构，它的初始化在第一次put的时候，初始化容量为16,负载因子是0.75，当插入的元素个数超过容量*负载因子就会进行扩容，扩容的过程是新创建一个容量为开始容量为2倍的数组，然后重新计算元素的hash值，它的hash值是通过调用底层的本地方法hashcode()方法得到一个hash值，然后再与这个这个hash值右移16位进行异或运行。然后将元素重新插入新数组，1.7采用的是头插法，1.8采用尾插法，而且在在1.8中当链表中的元素超过8就会转换为一个红黑树，当红黑树的元素小于6就会转换为链表。</span><br><span class="line">put(): 首先计算出hashcode值，确定在hashentry数组中的位置，如果是就赋值，不是就对链表中的元素逐个进行比较。</span><br></pre></td></tr></table></figure>
+<h2 id="10-CountDownLatch和CylicBarrier？"><a href="#10-CountDownLatch和CylicBarrier？" class="headerlink" title="10.CountDownLatch和CylicBarrier？"></a>10.CountDownLatch和CylicBarrier？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先他们的底层都是自减操作，</span><br></pre></td></tr></table></figure>
+<h2 id="11-读写锁（独占锁，排他锁）"><a href="#11-读写锁（独占锁，排他锁）" class="headerlink" title="11.读写锁（独占锁，排他锁）"></a>11.读写锁（独占锁，排他锁）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">写锁：写入的时候只能一个线程写。</span><br><span class="line">读锁：读数据的时候可以多个线程读。</span><br></pre></td></tr></table></figure>
+<h2 id="12-TCP三次握手？为什么要三次握手"><a href="#12-TCP三次握手？为什么要三次握手" class="headerlink" title="12.TCP三次握手？为什么要三次握手?"></a>12.TCP三次握手？为什么要三次握手?</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="13-tcp为什么是可靠传输"><a href="#13-tcp为什么是可靠传输" class="headerlink" title="13.tcp为什么是可靠传输"></a>13.tcp为什么是可靠传输</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">因为它有三次握手、四次挥手，超时重发、拥塞控制</span><br></pre></td></tr></table></figure>
+<h2 id="14-http和https的区别？"><a href="#14-http和https的区别？" class="headerlink" title="14.http和https的区别？"></a>14.http和https的区别？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http: 端口80，明文传输，基于tcp的</span><br><span class="line">https: 端口443，加密传输（通过共享密钥和公开密钥的混合加密方式）,访问需要证书，基于ssl协议的</span><br></pre></td></tr></table></figure>
+<h2 id="15-ArrayList"><a href="#15-ArrayList" class="headerlink" title="15.ArrayList?"></a>15.ArrayList?</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">底层采用数组实现，初始容量为<span class="number">10</span>，也可以自己设置。当超出这个容量会进行扩容。会新创建一个容量为初始容量<span class="number">1.5</span>倍的数组，然后将所有元素拷贝到新数组中。这里采用的是浅拷贝，只复制一个对象，但是在栈中的地址不变。线程不安全，采用快速失败机制。</span><br><span class="line">线程安全的：Collections.synchronizedList()对list集合进行包装，还可以使用CopyOnWriteArrayList。</span><br></pre></td></tr></table></figure>
+<h2 id="16-ArrayList和LinkedList区别？"><a href="#16-ArrayList和LinkedList区别？" class="headerlink" title="16.ArrayList和LinkedList区别？"></a>16.ArrayList和LinkedList区别？</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList底层是动态数组，LinkedList底层是双向链表。这就导致了arraylist在查找元素方面就比linkedList快，但在删除、增加方面就不如linkedList。因为数组是采用下标进行遍历，而链表遍历只能从头出发一个接一个的查找。删除和增加上面数组需要移动前后的元素，而链表可以直接插入。</span><br></pre></td></tr></table></figure>
+<h2 id="17-线程池运行流程、参数、拒绝策略"><a href="#17-线程池运行流程、参数、拒绝策略" class="headerlink" title="17.线程池运行流程、参数、拒绝策略"></a>17.线程池运行流程、参数、拒绝策略</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">参数：核心线程数，最大线程数大小、非核心线程空闲存活时间、前一个时间的单位、阻塞队列、创建线程的工厂、拒绝策略</span><br><span class="line">流程：提交的任务小于核心线程数时会启动核心线程进行处理，任务大于核心线程数就会将多余的部分放进阻塞队列中，如果阻塞队列满了同时小于最大线程数，那么就会创建非核心线程来处理任务，如果大于最大线程数就会采取拒绝策略。</span><br><span class="line">拒绝策略：1、直接抛出异常。</span><br><span class="line">        2、不抛出异常，并且丢弃任务。</span><br><span class="line">        3、将队列中最老的元素丢弃，处理这个任务。</span><br><span class="line">        4、使用当前正在执行的线程来处理这个任务。</span><br></pre></td></tr></table></figure>
+<h2 id="18-阻塞队列"><a href="#18-阻塞队列" class="headerlink" title="18.阻塞队列"></a>18.阻塞队列</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在某些情况下，就比如对个线程想同时进入用<span class="keyword">synchronized</span>修饰的方法中时，只有一个线程能进入，那么其他线程就会被放进阻塞队列中，等待时机成熟会被自动唤醒。</span><br><span class="line">ArrayBlockingQueue blockingQueue = <span class="keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="number">3</span>);</span><br><span class="line"><span class="number">1.</span>抛出异常   java.lang.IllegalStateException： Queue full</span><br><span class="line"><span class="number">2.</span>有异常、有返回值</span><br><span class="line"><span class="number">3.</span>等待（死等）</span><br><span class="line"><span class="number">4.</span>超时等待</span><br></pre></td></tr></table></figure>
+<h2 id="19-创建线程的方法？"><a href="#19-创建线程的方法？" class="headerlink" title="19.创建线程的方法？"></a>19.创建线程的方法？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="20-线程池有几种"><a href="#20-线程池有几种" class="headerlink" title="20.线程池有几种"></a>20.线程池有几种</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">newSingleThreadExecutor</span><br><span class="line">newFixedThreadPool</span><br><span class="line">newScheduledThreadPool      可定时处理任务的固定长度的线程池</span><br><span class="line">newCachedThreadPool</span><br></pre></td></tr></table></figure>
+<h2 id="21-浅拷贝和深拷贝？"><a href="#21-浅拷贝和深拷贝？" class="headerlink" title="21.浅拷贝和深拷贝？"></a>21.浅拷贝和深拷贝？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">实际上都是对象拷贝，都是将对象重新拷贝一个出来。</span><br><span class="line">浅拷贝是不会去拷贝对象内部的对象，就是一个类中的属性是一个对象，那么这个对象不会被拷贝。</span><br><span class="line">深拷贝会拷贝会对类中的对象也进行一个拷贝。</span><br></pre></td></tr></table></figure>
+<h2 id="22-线程6种状态及切换？"><a href="#22-线程6种状态及切换？" class="headerlink" title="22.线程6种状态及切换？"></a>22.线程6种状态及切换？</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pange1991/article/details/53860651">https://blog.csdn.net/pange1991/article/details/53860651</a></p>
+<h2 id="23-IOC和AOP？"><a href="#23-IOC和AOP？" class="headerlink" title="23.IOC和AOP？"></a>23.IOC和AOP？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IOC就是控制反转，由以前的应用程序自己去创建对象并且给对象注入属性，变为了由IOC容器去创建并注入属性。</span><br></pre></td></tr></table></figure>
+<h2 id="24-Mysql存储引擎"><a href="#24-Mysql存储引擎" class="headerlink" title="24.Mysql存储引擎?"></a>24.Mysql存储引擎?</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MylSAM 和 Innodb 和 Memory</span><br><span class="line">InnoDB: 聚集索引、主键索引的叶子节点存放着一整行的数据,支持事务、两个文件frm，idb</span><br><span class="line">MylSAM: 非聚集索引、叶子节点存储的是索引和对应的行地址，因此它需要寻址两次，速度比InnoDB慢。不支持事务，三张表frm,MYD,MYI</span><br><span class="line">Memory：存在于内存中，容易丢失数据。</span><br></pre></td></tr></table></figure>
+<h2 id="25-什么是索引？"><a href="#25-什么是索引？" class="headerlink" title="25.什么是索引？"></a>25.什么是索引？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">就是一种排好序的数据结构，Mysql中是使用的B+树，它就相当于目录，为了更方面的查找数据而创建。</span><br></pre></td></tr></table></figure>
+<h2 id="26-索引的类型？"><a href="#26-索引的类型？" class="headerlink" title="26.索引的类型？"></a>26.索引的类型？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">主键索引：数据列不能为空，不能重复，切一张表只能有一个。</span><br><span class="line">唯一索引：不能重复、可以为空、可以创建多个。</span><br><span class="line">普通索引：所有字段都可创建</span><br><span class="line">全文索引：</span><br></pre></td></tr></table></figure>
+<h2 id="27-B-树性质？"><a href="#27-B-树性质？" class="headerlink" title="27.B+树性质？"></a>27.B+树性质？</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先它是红黑树的一种优化，考虑到在数据量大的情况下红黑树的层数会很多，那么查询效率就比较低。所以采用了层数更少的b+树，它的叶子节点保存了索引以及该索引对应行的行数据，父结点只保存索引。它的每一个结点可以保存最多16kb大小的数据，其中每个叶子节点之间有一个指针指向下一个叶子，这样的话查询的效率就会比较高。</span><br></pre></td></tr></table></figure>
+<h2 id="28-B树和B-树的区别"><a href="#28-B树和B-树的区别" class="headerlink" title="28.B树和B+树的区别"></a>28.B树和B+树的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">B树中每个节点都存在key和value，B+树只有叶子节点存在key和value，非叶子节点值用来保存key的，B+树的叶子节点都有一条链相连接，B树的叶子节点是独立的。</span><br><span class="line">B-树的好处就是可以把频繁访问的节点放在靠近根节点的地方。</span><br><span class="line">B+树的好处就是空间占有率比较小，因为非叶子节点不保存键，这个时候我们进行范围查找的时候，它就可以直接从叶子节点获取数据，而B-树还要一层一层的查找。</span><br></pre></td></tr></table></figure>
+<h2 id="29-聚集索引和非聚集索引"><a href="#29-聚集索引和非聚集索引" class="headerlink" title="29.聚集索引和非聚集索引"></a>29.聚集索引和非聚集索引</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">数据和索引才一起的</span><br><span class="line">数据和索引分开的</span><br><span class="line">因此非聚集索引需要查询两次，第一次去找到索引位置，再根据索引对应磁盘中的地址找到数据。</span><br></pre></td></tr></table></figure>
+<h2 id="30-联合索引"><a href="#30-联合索引" class="headerlink" title="30.联合索引?"></a>30.联合索引?</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将多个字段同时作为索引，它主要是按照这个字段的先后顺序去进行一个排序，如果第一个字段相等的话，就比较第二个字段以此类推。</span><br></pre></td></tr></table></figure>
+<h2 id="31-CopyOnWriteArrayList和Collections-synchronizedList"><a href="#31-CopyOnWriteArrayList和Collections-synchronizedList" class="headerlink" title="31.CopyOnWriteArrayList和Collections.synchronizedList()"></a>31.CopyOnWriteArrayList和Collections.synchronizedList()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="32-主从复制"><a href="#32-主从复制" class="headerlink" title="32.主从复制"></a>32.主从复制<img src="/images/%E9%9D%A2%E8%AF%95%E9%A2%98/image-20210417161159925.png" alt="image-20210417161159925"></h2><h2 id="33-SpringBoot自动配置原理？"><a href="#33-SpringBoot自动配置原理？" class="headerlink" title="33.SpringBoot自动配置原理？"></a>33.SpringBoot自动配置原理？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先启动类上有个注解叫做SpringBootApplication,点进去之后有三个重要的注解，一个是SpringBootConfigurition，它实际上就是一个Java配置类，然后有一个ComponnentScan ，它是用来扫描类下面的注解的，最重要的就是那个EnableAutoConfigurition，它就是用来开启自动装配的，点进去之后有一个Import注解，它导入了一个AutoConfiguritionImportSelector类，然后这个类下面有一个主要的方法叫做SelectImports方法，它里面经过了调用本类的一些方法，最后会调用到一个叫SpringLoadFactoty类中的LoadFactoryNames方法，它里面是就是会去加载MATA-INF&#x2F;spring.factories文件的信息，将这些信息包装成properties对象，然后通过筛选去找到key为EnableAoutoConfigurition的properties，然后将这些加载到IOC容器中，就完成了自动配置。</span><br></pre></td></tr></table></figure>
+<h2 id="34-JVM内存区域？"><a href="#34-JVM内存区域？" class="headerlink" title="34.JVM内存区域？"></a>34.JVM内存区域？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">线程私有：程序计数器、栈、本地方法栈</span><br><span class="line">线程共享：方法区、堆</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">程序计数器：存放下一条指令的地址，然后一些异常、循环、线程恢复都会交给它处理。</span><br><span class="line">栈：它存放的是对象的引用、基本数据类型</span><br><span class="line">堆：存放对象实例、还有数组</span><br><span class="line">方法区：存在类的信息、常量、静态变量</span><br><span class="line">本都方法栈：存放的是本地的native方法，它实际上就是调用底层的C++代码</span><br></pre></td></tr></table></figure>
+<h1 id="35-GC流程"><a href="#35-GC流程" class="headerlink" title="35.GC流程"></a>35.GC流程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当Eden区的空间满了之后会触发轻度gc,然后存活下来的对象会进入Survivor区，如果对象过大，那么会直接进入老年区，每个对象都有一个年龄，初始值为0，每经历一次轻量级的垃圾回收之后就会将年龄+1，如果年龄到达15，那么它就会进入老年区。当老年区满了之后呢就会进行一次重度垃圾回收，它经常会伴随至少一次的轻度垃圾回收。</span><br></pre></td></tr></table></figure>
+<h2 id="36-垃圾回收器"><a href="#36-垃圾回收器" class="headerlink" title="36. 垃圾回收器"></a>36. 垃圾回收器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMS：</span><br><span class="line"></span><br><span class="line">G1:</span><br></pre></td></tr></table></figure>
+<h2 id="37-垃圾回收算法"><a href="#37-垃圾回收算法" class="headerlink" title="37.垃圾回收算法"></a>37.垃圾回收算法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">分代收集算法：根据不同的区域采用不同的垃圾回收算法，比如新生区采用复制算法，老年区采用标记-清除或者标记-整理</span><br><span class="line"></span><br><span class="line">复制算法：因为这里会产生大量的垃圾，然后每次垃圾回收之后剩余的对象很少，那么复制的消耗也就很少。新生区的分布是80%的区域是Eden，两块10%的区域作为Survivor from，和to区，当Eden区满的时候会执行轻度gc，将存活下来的对象复制到Survivor from中，然后将from中的对象复制到to中，然后将Eden和from区清空，接着交换两个Survivor区，from变to，to变from，让to区变为空，每次垃圾回收之后呢对象的年龄+1，当到达15之后就会放进老年区。缺点就是会浪费空间，但是非常高效并且不会出现内存碎片。</span><br><span class="line"></span><br><span class="line">标记清除：适用于老年代，因为老年代清除的对象很少，所以标记的消耗也就少。它是通过可达性分析找出需要被清除的对象，然后进行标记，最后将标记的清除。缺点是：要产生内存碎片。</span><br><span class="line"></span><br><span class="line">标记整理：它是将没有标记的对象像一个方向移动，然后直接清理掉边界的对象。好处是不会产生内部碎片。</span><br></pre></td></tr></table></figure>
+<h2 id="38-引用计数法、可达性分析"><a href="#38-引用计数法、可达性分析" class="headerlink" title="38 引用计数法、可达性分析"></a>38 引用计数法、可达性分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">引用计数法：给每个对象一个引用计数器，当对象被创建和初始化后就将这个对象的引用计数器的值设置为1，当它被其他对象引用的时候，那么它的引用计数器的值就会+1，如果这个对象超出作用域的时候引用计数器就会-1或者引用它的对象被垃圾回收之后呢这个对象也会-1。当引用计数器的值为0时，就被垃圾回收。</span><br><span class="line"></span><br><span class="line">可达性分析：它也叫根搜索法，就是如果这个对象在根对象的引用链中，那么它就是可达的，不在引用链中的都是垃圾。根对象：虚拟机栈引用的对象，方法区中常量引用的对象还有静态变量引用的对象，本地方法栈中引用的对象。在搜索的过程中，需要进行两次标记过程才能说明这个对象能被回收。第一次是在判断这个对象是否在引用链中，如果不在的话那么这个对象会进行一次筛选，就是去判断这个对象有没有必要执行finalize()方法，如果对象没有这个方法或者已经被执行了，那么这个对象就会被判断是一个垃圾。如果有必要的话就会被放进一个交F-Queue的队列中，然后由虚拟机去创建一个线程执行这个finalize()方法，接着gc就会对这个队列 进行第二次标记，如果这个对象在执行这个方法后成为了引用链上的对象的话，那么它就可以不被标记，否则就会被标记。</span><br></pre></td></tr></table></figure>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg" alt="Thinker">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Thinker
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/04/14/%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_blank">【总结】 Java面试题</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：好好学习，天天向上！
+                <br>
+                <span class="suffix-box-title">关于作者</span>：<a href="https://github.com/thinkerywj" target="_blank">Thinker</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/Java%E9%9D%A2%E8%AF%95%E9%A2%98/">Java面试题</a>
+                
+            </div>
+        
+        <div class="article-prev-next">
+            
+            
+                <a href="/2021/03/28/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="next-prefix">» </a> 下一篇：    <a href="/2021/03/28/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="发布于 2021-03-28 03:57">【Java并发编程】 3.JUC (面试重点！！！)</a>
+            
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
+</div>
+
+    </div>
+</div>
+    <div id="footer"></div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar"></div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span></span></div>        
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul></ul> 
+            </div> 
+            <div class="menu-link"></div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+
+    
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js"></script>
+        <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    
+    
+    <div class="wrap-right"></div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : 'thinkerywj',
+        GitHubRepositories : 'Hexo-LiveForCode',
+
+        BlogUser      : 'Thinker',
+        BlogAvatar    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg',
+        BlogStartDate : '2020-01-01',
+
+        WebsiteTitleBlur         : '去哪儿，快回来！',
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : '(*´∇｀*) 欢迎回来!',
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/logo.png',
+
+        ProgressBar: {
+            id       : 'topProgressBar',
+            color    : '#77B6FF',
+            height   : '2px',
+            duration : 0.2
+        },
+
+        Loading: {
+            rebound: {
+                tension  : 16,
+                friction : 5
+            },
+            spinner: {
+                id     : 'spinner',
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : '#F0F0F0',
+                    stroke     : '#272633',
+                    base       : '',
+                    child      : '#272633'
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
+
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : 'rgba(255, 255, 255, .2)',
+            clearOffset : 0.3
+        },
+
+        ArticleHeaderAnimationRendered : false,
+        ArticleHeaderAnimation         : {
+            triW                  : 14,
+            triH                  : 20,
+            neighbours            : [
+                
+                    'side',
+                
+                    'top',
+                
+                    'bottom',
+                
+            ],
+            speedTrailAppear      : 0.1,
+            speedTrailDisappear   : 0.1,
+            speedTriOpen          : 1,
+            trailMaxLength        : 30,
+            trailIntervalCreation : 100,
+            delayBeforeDisappear  : 2,
+            colors                : [
+                
+                    '#96EDA6',
+                
+                    '#5BC6A9',
+                
+                    '#38668C',
+                
+                    '#374D84',
+                
+                    '#BED5CB',
+                
+                    '#62ADC6',
+                
+                    '#8EE5DE',
+                
+                    '#304E7B',
+                
+            ]
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : '60%',
+            colorBrightness  : '50%',
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : 'random',
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpg',
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpeg',
+            
+        ],
+        HomeBannerText  : '',
+
+        ArticleHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/article.jpg',
+            
+        ],
+
+        OtherBannerText : '',
+
+        MenuList : [
+            
+                {
+                    name   : '首页',
+                    href   : '/',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '标签',
+                    href   : '/tag',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '分类',
+                    href   : '/category',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '归档',
+                    href   : '/archive',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '赞赏',
+                    href   : '/donate',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '关于',
+                    href   : '/about',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '订阅',
+                    href   : '/atom.xml',    
+                    target : '_blank',
+                    class  : ''
+                },
+            
+                {
+                    name   : '搜索',
+                    href   : '',    
+                    target : '',
+                    class  : 'search'
+                },
+            
+                {
+                    name   : '留言板',
+                    href   : '/comment',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '友情链接',
+                    href   : '/friend',    
+                    target : '',
+                    class  : ''
+                },
+            
+        ],
+        MenuLink : [
+            
+                
+                    {
+                        icon : 'icon-weibo', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-wechat', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-qq', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-github', 
+                        url  : 'https://github.com/thinkerywj'
+                    },
+                
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : {
+            icon    : 'like-fill',
+            left    : '人生若只如初见',
+            right   : '何事秋风悲画扇'
+        },
+        ThemeInfo   : false,
+
+        ConsoleList : [
+            
+                
+                    [
+                        
+                            
+                                'Based on cnblogs theme SimpleMemory.',
+                            
+                                '',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'SimpleMemory Author:',
+                            
+                                'BNDong',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'Theme:',
+                            
+                                'Thinker',
+                            
+                        
+                    ],
+                
+            
+        ],
+
+        FontIconExtend : '',
+
+        Donate : {
+            paypal  : '',
+            bitcoin : '',
+            alipay  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/alipay.png',
+            wechat  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/wechat.png'
+        },
+
+        Code : {
+            style : 'normal'
+        },  
+
+        Search : {
+            applicationID : '010C3EANT8',
+            apiKey        : 'c7abab9f11b79102b9aff7fe6d41447d',
+            indexName     : 'Notes',
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : '搜索',
+                empty       : '未发现与 「${query}」 相关的内容',
+                stats       : '${hits} 条相关条目，使用了 ${time} 毫秒',
+            }
+        }, 
+
+        Valine : {
+            switch         : true,
+            el             : '.comments-content',
+            appId          : 'srhKtvWPQTWYKh3qX8G8M7v0-gzGzoHsz',
+            appKey         : '8uVSP1q6UlALVC5igYfIfv2h',
+            placeholder    : '你是我一生只会遇见一次的惊喜...',
+            avatar         : 'mm',
+            meta           : 'nick,mail,link',
+            requiredFields : 'nick,mail',
+            pageSize       : 5,
+            lang           : 'zh-cn',
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : '.toc',
+            contentSelector       : '.article-body',
+            headingSelector       : 'h1, h2, h3, h4, h5',
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : '.toc',
+            positionFixedClass    : 'toc-fixed',
+            fixedSidebarOffset    : '',
+        },
+
+        Require : {
+            baseUrl     : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/',
+            waitSeconds : 100
+        },
+
+        Music : {
+            type : 'Meting'
+        },
+        APlayer : {
+            container : '.aplayer',
+            fixed     : true,
+            autoplay  : false,
+            loop      : 'all',
+            order     : 'random',
+            preload   : 'auto',
+            volume    : 0.67,
+            mutex     : true,
+            lrcType   : 3,
+            audio     : [
+                
+                    {
+                        name   : 'aLIEz',
+                        artist : 'mizuki（瑞葵）',
+                        cover  : '/music/cover/aLIEz.jpg',
+                        url    : '/music/song/aLIEz.mp3',
+                        lrc    : '/music/lrc/aLIEz.lrc'
+                    },
+                
+                    {
+                        name   : 'Endless Tears',
+                        artist : 'CLIFF EDGE',
+                        cover  : '/music/cover/Endless Tears.jpg',
+                        url    : '/music/song/Endless Tears.mp3',
+                        lrc    : '/music/lrc/Endless Tears.lrc'
+                    },
+                
+                    {
+                        name   : 'Miracle',
+                        artist : 'Cascada',
+                        cover  : '/music/cover/Miracle.jpg',
+                        url    : '/music/song/Miracle.mp3',
+                        lrc    : '/music/lrc/Miracle.lrc'
+                    },
+                
+                    {
+                        name   : 'Roll The Dice',
+                        artist : '高珊',
+                        cover  : '/music/cover/Roll The Dice.jpg',
+                        url    : '/music/song/Roll The Dice.mp3',
+                        lrc    : '/music/lrc/Roll The Dice.lrc'
+                    },
+                
+                    {
+                        name   : 'See You Again',
+                        artist : 'Charlie Puth, Wiz Khalifa',
+                        cover  : '/music/cover/See You Again.jpg',
+                        url    : '/music/song/See You Again.mp3',
+                        lrc    : '/music/lrc/See You Again.lrc'
+                    },
+                
+                    {
+                        name   : 'Traveling Light',
+                        artist : 'Joel Hanson, Sara Groves',
+                        cover  : '/music/cover/Traveling Light.jpg',
+                        url    : '/music/song/Traveling Light.mp3',
+                        lrc    : '/music/lrc/Traveling Light.lrc'
+                    },
+                
+                    {
+                        name   : '痴心绝对',
+                        artist : '李圣杰',
+                        cover  : '/music/cover/痴心绝对.jpg',
+                        url    : '/music/song/痴心绝对.mp3',
+                        lrc    : '/music/lrc/痴心绝对.lrc'
+                    },
+                
+                    {
+                        name   : '好想大声说爱你',
+                        artist : 'BAAD（バード）',
+                        cover  : '/music/cover/好想大声说爱你.jpg',
+                        url    : '/music/song/好想大声说爱你.mp3',
+                        lrc    : '/music/lrc/好想大声说爱你.lrc'
+                    },
+                
+            ]
+        },
+        Meting : {
+            id       : '3778678', 
+            lrcshow  : false, 
+            server   : 'netease', 
+            type     : 'playlist', 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : 'all', 
+            order    : 'random', 
+            preload  : 'auto', 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        LazyLoad : {
+            default : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/lazyload.svg'
+        },
+  
+        Style : {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/APlayer.css',
+            archive          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/archive.css',
+            donate           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/donate.css',
+            fancybox         : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/jquery.fancybox.css',
+            footer           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/footer.css',
+            iconfont         : 'https://at.alicdn.com/t/font_1546312_l3yohatebw.css',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css',
+            menuBubble       : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/menu-bubble.css',
+            page             : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/page.css',
+            post             : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css',
+            search           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css',
+            tocbot           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/tocbot.css',
+            normal           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css',
+            night            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/night.css',
+            clipboard        : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/clipboard.css'
+        },
+
+        Script: {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/APlayer.min.js',
+            config           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.config.js',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js',
+            instantSearch    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js',
+            jQuery           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js',
+            loading          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/loading.js',
+            meting           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js',
+            iscroll          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js',
+            require          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.min.js'
+        },
+
+        Font: {
+            LongCang   : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css',
+            Monda      : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css',
+            NotoSansSC : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css',
+            Playball   : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css',
+            PTMono     : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css',
+            RobotoSlab : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css',
+            Rosario    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css',
+            UbuntuMono : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css'
+        },
+
+        Suffix : {
+            about : '好好学习，天天向上！'
+        },
+            
+        Theme : {
+            url  : 'https://github.com/thinkerywj',
+            name : 'Thinker'
+        }  
+    };
+</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js"></script>
+</body>
+</html>
