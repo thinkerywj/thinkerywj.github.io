@@ -96,8 +96,18 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-check-aof --fix appendonly.aof</span><br></pre></td></tr></table></figure>
 
 
-
-
+<blockquote>
+<p>优缺点</p>
+</blockquote>
+<p><strong>优点：</strong></p>
+<p>1、每次修改都同步，文件的完整性更加好</p>
+<p>2、默认开启每秒同步一次，可能会丢失一秒的数据</p>
+<p>3、从不同步，效率最高！</p>
+<p><strong>缺点：</strong></p>
+<p>1、相对于数据文件来说，aof远远大于rdb，修复的速度也比rdb慢</p>
+<p>2、aof的运行效率也要比rdb慢，默认是rdb</p>
+<p>【扩展】</p>
+<p>1、RDB持久化方式能够在指定的时间间隔内对你的数据进行快照存储。<br>2、AOF 持久化方式记录每次对服务器写的操作，当服务器重启的时候会重新执行这些命令来恢复原始的数据,，AOF命令以Redis协议追加保存每次写的操作到文件末尾，Redis还能对AOF文件进行后台重写，使得AOF文件的体积不至于过大。<br>3、只做缓存，如果你只希望你的数据在服务器运行的时候存在，你也可以不使用任何持久化<br>4、同时开启两种持久化方式<br>在这种情况下，当redis重启的时候会优先载入AOF文件来恢复原始的数据，因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整。<br>RDB的数据不实时，同时使用两者时服务器重启也只会找AOF文件，那要不要只使用AOF呢？作者建议不要，因为RDB更适合用于备份数据库( AOF在不断变化不好备份)，快速重启，而且不会有AOF可能潜在的Bug，留着作为一个万一的手段。<br>5、性能建议<br>因为RDB文件只用作后备用途，建议只在Slave上持久化RDB文件，而且只要15分钟备份一 次就够了，只保留 save 900 1 这条规则。<br>如果Enable AOF，好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了，代价一是带来了持续的IO，二是AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上，默认超过原大小100%大小重写可以改到适当的数值。<br>如果不Enable AOF，仅靠Master-Slave Repllcation实现高可用性也可以，能省掉一大笔IO，也减少了rewrite时带来的系统波动。代价是如果Master/Slave 同时挂掉，会丢失 十几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个，微博就是这种架构。</p>
 
         <p class="suffix-end">__END__</p>
         <div class="suffix-box">
@@ -130,6 +140,9 @@
             </div>
         
         <div class="article-prev-next">
+            
+                <a href="/2021/07/29/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" class="prev-prefix">« </a> 上一篇：    <a href="/2021/07/29/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" title="发布于 2021-07-29 05:30">【Redis】 8.redis发布订阅</a>
+                <br>
             
             
                 <a href="/2021/07/29/Redis%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="next-prefix">» </a> 下一篇：    <a href="/2021/07/29/Redis%E5%B7%A5%E5%85%B7%E7%B1%BB/" title="发布于 2021-07-29 02:48">【Redis】 Redis工具类</a>
